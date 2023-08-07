@@ -1,10 +1,9 @@
-export function add(a: number, b: number): number {
-  return a + b;
-}
+import express from "npm:express@4.17.1";
 
-// Learn more at https://deno.land/manual/examples/module_metadata#concepts
-if (import.meta.main) {
-  console.log(Deno.env.get("USER"))
-  console.log("Add 2 + 3 =", add(2, 3));
-}
+const app = express();
 
+app.get("/", (req, res) => {
+  res.send("welcome to the deno api!");
+})
+
+app.listen(8080);
