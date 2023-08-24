@@ -1,8 +1,10 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import { console, application }  from "./lib/log/logger.js";
+import applicationlogger  from "./lib/log/applicationlogger.js";
 import favicon from "serve-favicon";
-import router from "./routes/index.js"
+import router from "./routes/index.js";
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -17,6 +19,8 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 
 app.use("/", router);
 
+app.use(applicationlogger())
+
 app.listen(PORT, () => {
-  console.log(`Application listening at :${PORT}`);
+  application.log(`Application listening at :${PORT}`);
 });
