@@ -1,7 +1,8 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import { console, application }  from "./lib/log/logger.js";
+import { application }  from "./lib/log/logger.js";
+import accesslogger  from "./lib/log/accesslogger.js";
 import applicationlogger  from "./lib/log/applicationlogger.js";
 import favicon from "serve-favicon";
 import router from "./routes/index.js";
@@ -16,6 +17,8 @@ app.set("view engine", "ejs");
 
 app.use(favicon(path.join(__dirname, "public/favicon.ico")));
 app.use("/public", express.static(path.join(__dirname, "/public")));
+
+app.use(accesslogger());
 
 app.use("/", router);
 
