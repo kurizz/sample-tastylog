@@ -22,6 +22,40 @@ app.use(accesslogger());
 
 app.use("/", router);
 
+import { promisify } from "util";
+import config from "./config/mysql.config.js";
+import mysql from "mysql";
+//import SqlFileLoader from "@garafu/mysql-fileloader"
+
+app.use("/test", async(req, res, next) => {
+  //const { sql } = SqlFileLoader({ root: path.join(__dirname, "./lib/database/sql") });
+  const conn = mysql.createConnection({
+    host: config.HOST,
+    port: config.PORT,
+    user: config.USERNAME,
+    password: config.PASSWORD,
+    database: config.DATABASE
+  });
+
+  console.log(config.HOST, config.PORT, config.PASSWORD, config.DATABASE);
+  const client = {
+    connect: promisify(conn.connect).bind(conn),
+    query: promisify(conn.query).bind(conn),
+    end: promisify(conn.end).bind(conn),
+  };
+
+  try {
+    await client.connect();
+    //data = await client.query(await sql("SELECT_SHOP_BASIC_BY_ID"));
+  } catch (err) {
+    next(err);
+  } finally {
+    await client.end();
+  }
+
+  res.end("OK");
+});
+
 app.use(applicationlogger())
 
 app.listen(PORT, () => {
