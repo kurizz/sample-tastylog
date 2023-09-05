@@ -37,7 +37,6 @@ app.use("/test", async(req, res, next) => {
     database: config.DATABASE
   });
 
-  console.log(config.HOST, config.PORT, config.PASSWORD, config.DATABASE);
   const client = {
     connect: promisify(conn.connect).bind(conn),
     query: promisify(conn.query).bind(conn),
@@ -46,7 +45,8 @@ app.use("/test", async(req, res, next) => {
 
   try {
     await client.connect();
-    //data = await client.query(await sql("SELECT_SHOP_BASIC_BY_ID"));
+    const data = await client.query('SELECT * FROM `t_shop` WHERE `id`=1')
+    console.log(data[0])
   } catch (err) {
     next(err);
   } finally {
