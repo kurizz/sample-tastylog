@@ -1,11 +1,13 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import favicon from "serve-favicon";
+
 import { application }  from "./lib/log/logger.js";
 import accesslogger  from "./lib/log/accesslogger.js";
 import applicationlogger  from "./lib/log/applicationlogger.js";
-import favicon from "serve-favicon";
 import router from "./routes/index.js";
+import MySqlClient from "./lib/database/client.js";
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -22,35 +24,16 @@ app.use(accesslogger());
 
 app.use("/", router);
 
-import { promisify } from "util";
-import config from "./config/mysql.config.js";
-import mysql from "mysql";
-//import SqlFileLoader from "@garafu/mysql-fileloader"
-
 app.use("/test", async(req, res, next) => {
-  //const { sql } = SqlFileLoader({ root: path.join(__dirname, "./lib/database/sql") });
-  const conn = mysql.createConnection({
-    host: config.HOST,
-    port: config.PORT,
-    user: config.USERNAME,
-    password: config.PASSWORD,
-    database: config.DATABASE
-  });
-
-  const client = {
-    connect: promisify(conn.connect).bind(conn),
-    query: promisify(conn.query).bind(conn),
-    end: promisify(conn.end).bind(conn),
-  };
 
   try {
-    await client.connect();
-    const data = await client.query('SELECT * FROM `t_shop` WHERE `id`=1')
+    await MySqlClient.connect();
+    const data = await MySqlClient.query('SELECT * FROM `t_shop` WHERE `id`=1')
     console.log(data[0])
   } catch (err) {
     next(err);
   } finally {
-    await client.end();
+    await MySqlClient.end();
   }
 
   res.end("OK");
