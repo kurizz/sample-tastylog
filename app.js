@@ -27,13 +27,10 @@ app.use("/", router);
 app.use("/test", async(req, res, next) => {
 
   try {
-    await MySqlClient.connect();
-    const data = await MySqlClient.query('SELECT * FROM `t_shop` WHERE `id`=?', ["0 OR 1=1"])
-    console.log(data)
+    const data = await MySqlClient.executeQuery('SELECT * FROM `t_shop` WHERE `id`=?', [10]);
+    console.log(data);
   } catch (err) {
     next(err);
-  } finally {
-    await MySqlClient.end();
   }
 
   res.end("OK");
