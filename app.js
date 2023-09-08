@@ -7,8 +7,11 @@ import moment from "moment";
 import { application }  from "./lib/log/logger.js";
 import accesslogger  from "./lib/log/accesslogger.js";
 import applicationlogger  from "./lib/log/applicationlogger.js";
+
 import router from "./routes/index.js";
-import MySqlClient from "./lib/database/client.js";
+import shops from "./routes/shops.js";
+
+//import MySqlClient from "./lib/database/client.js";
 import { padding } from "./lib/math/math.js";
 
 const PORT = process.env.PORT || 3000;
@@ -30,19 +33,8 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 
 app.use(accesslogger());
 
+app.use("/shops", shops)
 app.use("/", router);
-
-app.use("/test", async(req, res, next) => {
-
-  try {
-    const data = await MySqlClient.executeQuery('SELECT * FROM `t_shop` WHERE `id`=?', [10]);
-    console.log(data);
-  } catch (err) {
-    next(err);
-  }
-
-  res.end("OK");
-});
 
 app.use(applicationlogger())
 
