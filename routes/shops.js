@@ -7,7 +7,16 @@ router.get("/:id", (req, res, next) => {
   const id = req.params.id;
 
   Promise.all([
-    MySqlClient.executeQuery('SELECT * FROM t_shop WHERE id = ?', [id])
+    MySqlClient.executeQuery(
+      'SELECT sc.id, sc.name, sc.post_code, sc.address, sc.tel, sc.holiday, sc.seats \
+       FROM ( \
+         SELECT * FROM (SELECT * FROM t_shop WHERE id=?) AS t_shop \
+         LEFT JOIN t_shop_category ON t_shop.id=t_shop_category.shop_id \
+       ) AS sc \
+       LEFT JOIN m_category ON sc.category_id=m_category.id \
+       GROUP BY sc.id',
+      [id]
+    )
   ]).then((results) => {
     const data = results[0][0];
     res.render("./shops/index.ejs", data);
