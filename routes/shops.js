@@ -18,7 +18,7 @@ router.get("/:id", (req, res, next) => {
       [id]
     ),
     MySqlClient.executeQuery(
-      'SELECT t_review.id, t_user.id as user_id, t_user.name, t_review.score, t_review.visit, t_review.post, t_review.description \
+      'SELECT t_review.id, t_user.id as user_id, t_user.name as user_name, t_review.score, t_review.visit, t_review.post, t_review.description \
        FROM t_review LEFT JOIN t_user on t_review.user_id = t_user.id  \
        WHERE t_review.shop_id = ? \
       ',
