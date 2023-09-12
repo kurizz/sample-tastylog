@@ -16,9 +16,17 @@ router.get("/:id", (req, res, next) => {
        LEFT JOIN m_category ON sc.category_id=m_category.id \
        GROUP BY sc.id',
       [id]
+    ),
+    MySqlClient.executeQuery(
+      'SELECT t_review.id, t_user.id as user_id, t_user.name, t_review.score, t_review.visit, t_review.post, t_review.description \
+       FROM t_review LEFT JOIN t_user on t_review.user_id = t_user.id  \
+       WHERE t_review.shop_id = ? \
+      ',
+     [id]
     )
   ]).then((results) => {
-    const data = results[0][0];
+    var data = results[0][0];
+    data.reviews = results[1] || [];
     res.render("./shops/index.ejs", data);
   }).catch((err) => {
     next(err);
