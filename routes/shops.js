@@ -8,7 +8,7 @@ router.get("/:id", (req, res, next) => {
 
   Promise.all([
     MySqlClient.executeQuery(
-      'SELECT sc.id, sc.name, sc.post_code, sc.address, sc.tel, sc.holiday, sc.seats, sc.price_range, GROUP_CONCAT(m_category.name separator ", ") as categories \
+      'SELECT sc.id, sc.name, sc.post_code, sc.address, sc.tel, sc.holiday, sc.seats, sc.price_range, sc.score, sc.geolocation_latitude, sc.geolocation_longitude, GROUP_CONCAT(m_category.name separator ", ") as categories \
        FROM ( \
          SELECT * FROM (SELECT * FROM t_shop WHERE id=?) AS t_shop \
          LEFT JOIN t_shop_category ON t_shop.id=t_shop_category.shop_id \

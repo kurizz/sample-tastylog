@@ -15,8 +15,8 @@
       <div class="border-bottom mt-5 mb-5">
         <h1 class="display-4"><%= name %></h1>
         <p class="h3">
-          <span class="rate-star" style="--rate: <%- (5.00/5.00)*100 %>%;"></span>
-          <span><%- padding(500) %></span>
+          <span class="rate-star" style="--rate: <%= (score/5.00)*100 %>%;"></span>
+          <span><%- padding(score) %></span>
         </p>
       </div>
 
