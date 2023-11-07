@@ -10,6 +10,7 @@ import applicationlogger  from "./lib/log/applicationlogger.js";
 
 import router from "./routes/index.js";
 import shops from "./routes/shops.js";
+import search from "./routes/search.js";
 
 //import MySqlClient from "./lib/database/client.js";
 import { padding } from "./lib/math/math.js";
@@ -33,8 +34,9 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 
 app.use(accesslogger());
 
-app.use("/shops", shops)
 app.use("/", router);
+app.use("/shops", shops);
+app.use("/search", search);
 
 app.use(applicationlogger())
 
