@@ -11,7 +11,7 @@ router.get("/", async (req, res, next) => {
   try {
     if (keyword) {
       results = await MySqlClient.executeQuery(
-        'SELECT sc.id, sc.name, sc.post_code, sc.address, sc.tel, sc.holiday, sc.seats, sc.score, GROUP_CONCAT(m_category.name separator ", ") as categries \
+        'SELECT sc.id, sc.name, sc.post_code, sc.address, sc.tel, sc.holiday, sc.seats, sc.score, GROUP_CONCAT(m_category.name separator ", ") as categories \
          FROM \
          ( \
            SELECT * FROM (SELECT * FROM t_shop WHERE name LIKE ?) as shop \
@@ -24,7 +24,7 @@ router.get("/", async (req, res, next) => {
       )
     } else {
       results = await MySqlClient.executeQuery(
-        'SELECT sc.id, sc.name, sc.post_code, sc.address, sc.tel, sc.holiday, sc.seats, sc.score, GROUP_CONCAT(m_category.name separator ", ") as categries \
+        'SELECT sc.id, sc.name, sc.post_code, sc.address, sc.tel, sc.holiday, sc.seats, sc.score, GROUP_CONCAT(m_category.name separator ", ") as categories \
          FROM \
          ( \
            SELECT * FROM (SELECT * FROM t_shop ORDER BY score DESC LIMIT ?) as shop \
@@ -36,7 +36,7 @@ router.get("/", async (req, res, next) => {
         [MAX_ITEMS]
       )
     }
-    res.render("./search/list.ejs", { results });
+    res.render("./search/list.ejs", { keyword, results });
   } catch (err) {
     next(err);
   }
