@@ -36,10 +36,23 @@
 
       <nav>
         <ul class="pagination justify-content-center">
-          <!-- Pagenation -->
+        <% for (var i=1; i<=pagenation.max; i++) { %>
+          <% if (pagenation.current !== i) { %>
+            <% if (i < pagenation.min+3 || (pagenation.current-3 < i && i < pagenation.current+3 || pagenation.max-3 < i)) { %>
+              <li class="page-ite">
+                <a href="/search/?keyword=<%= keyword %>&page=<%= i %>" class="page-link"><%= i %></a>
+              </li>
+            <% } else { %>
+              .
+            <% } %>
+          <% } else { %>
+            <li class="page-item">
+              <span class="page-link disable"><%= i %></span>
+            </li>
+          <% } %>
+        <% } %>
         </ul>
       </nav>
-
     </main>
     <%- include("../_share/footer.ejs") %>
   </div>
