@@ -12,7 +12,6 @@ import router from "./routes/index.js";
 import shops from "./routes/shops.js";
 import search from "./routes/search.js";
 
-//import MySqlClient from "./lib/database/client.js";
 import { padding } from "./lib/math/math.js";
 
 const PORT = process.env.PORT || 3000;
@@ -33,6 +32,21 @@ app.use(favicon(path.join(__dirname, "public/favicon.ico")));
 app.use("/public", express.static(path.join(__dirname, "/public")));
 
 app.use(accesslogger());
+
+//import MySqlClient from "./lib/database/client.js";
+// app.get("/test", async (req, res, next) => {
+//   let tran;
+//   try {
+//     tran = await MySqlClient.beginTransaction();
+//     await tran.executeQuery("UPDATE t_shop SET score=? WHERE id=?", [4.00, 1]);
+//     throw new Error("Test Exception");
+//     await tran.commit();
+//     res.end("OK");
+//   } catch (err) {
+//     await tran.rollback();
+//     next(err);
+//   }
+// });
 
 app.use("/", router);
 app.use("/shops", shops);
