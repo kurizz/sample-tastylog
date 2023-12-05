@@ -11,6 +11,7 @@ import applicationlogger  from "./lib/log/applicationlogger.js";
 import router from "./routes/index.js";
 import shops from "./routes/shops.js";
 import search from "./routes/search.js";
+import account from "./routes/account.js";
 
 import { padding } from "./lib/math/math.js";
 
@@ -51,6 +52,7 @@ app.use(accesslogger());
 app.use("/", router);
 app.use("/shops", shops);
 app.use("/search", search);
+app.use("/account", account);
 
 app.use(applicationlogger())
 
