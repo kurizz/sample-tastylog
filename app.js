@@ -49,6 +49,8 @@ app.use(accesslogger());
 //   }
 // });
 
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/", router);
 app.use("/shops", shops);
 app.use("/search", search);
