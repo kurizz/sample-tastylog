@@ -30,10 +30,16 @@ router.get("/regist/:shopId(\\d+)", async(req, res, next) => {
   }
 });
 
+router.post("/regist/:shopId(\\d+)", (req, res, next) => {
+  let review = createReviewData(req);
+  let { shopId, shopName } = req.body;
+  res.render("./account/reviews/regist-form.ejs", { shopId, shopName, review })
+});
+
 router.post("/regist/confirm", (req, res, next) => {
   let review = createReviewData(req);
   let { shopId, shopName } = req.body;
   res.render("./account/reviews/regist-confirm.ejs", { shopId, shopName, review })
-})
+});
 
 export default router;

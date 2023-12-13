@@ -15,7 +15,7 @@
         <h1>口コミ投稿</h1>
       </div>
       <div>
-        <form action="/account/reviews/regist/confirm" method="POST">
+        <form>
           <input type="hidden" id="shopId" name="shopId" value="<%= shopId %>" />
 
           <div class="form-group row">
@@ -49,8 +49,8 @@
           <div class="form-group row">
             <div class="col-sm-2"></div>
             <div class="col-sm-10">
-              <input type="submit" class="btn btn-primary" value="修正" />
-              <input type="submit" class="btn btn-primary" value="確認" />
+              <input type="submit" class="btn btn-primary" data-method="POST" data-action="/account/reviews/regist/<%= shopId %>" value="修正" />
+              <input type="submit" class="btn btn-primary" data-method="POST" data-action="/account/reviews/regist/execute" value="確認" />
             </div>
           </div>
         </form>
@@ -59,6 +59,8 @@
     <%- include("../../_share/footer.ejs") %>
   </div>
   <%- include("../../_share/javascripts.ejs") %>
+
+  <script src="/public/javascripts/regist.js"></script>
 </body>
 
 </html>
