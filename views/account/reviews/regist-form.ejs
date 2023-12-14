@@ -14,9 +14,17 @@
       <div class="border-bottom my-5">
         <h1>口コミ投稿</h1>
       </div>
+
       <div>
         <form action="/account/reviews/regist/confirm" method="POST">
           <input type="hidden" id="shopId" name="shopId" value="<%= shopId %>" />
+          <% if (locals.error) { %>
+            <div class="alert alert-danger">
+              <% for (let key in error) { %>
+                <div><i class="fa fa-fw fa-exclamation-circle"></i> <%= error[key] %></div>
+              <% } %>
+            </div>
+          <% } %>
 
           <div class="form-group row">
             <label for="shopName" class="col-sm-2 col-form-label">店舗</label>
