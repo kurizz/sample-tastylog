@@ -5,6 +5,8 @@ let btnSubmit_onClick = event => {
   $form.attr("method", $submit.data("method"));
   $form.attr("action", $submit.data("action"));
   $form.submit();
+  $submit.off().prop("disabled", true);
+  $form.on("submit", false)
 };
 
 let document_onready = event => {
