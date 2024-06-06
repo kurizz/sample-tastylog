@@ -113,10 +113,12 @@ router.post("/regist/execute", async (req, res, next) => {
   delete req.session._csrf;
   res.clearCookie("_csrf");
 
-  setTimeout(() => {
-    res.render("./account/reviews/regist-complete.ejs", { shopId })
-  }, 1500);
+  res.redirect(`/account/reviews/regist/complete?shopId=${shopId}`);
+});
 
+
+router.get("/regist/complete", (req, res, next) => {
+    res.render("./account/reviews/regist-complete.ejs", { shopId: req.query.shopId })
 });
 
 export default router;
