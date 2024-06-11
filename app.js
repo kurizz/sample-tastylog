@@ -6,10 +6,12 @@ import moment from "moment";
 import cookie from "cookie-parser";
 import session from "express-session";
 import MySQLStore from "express-mysql-session";
+import flash from "connect-flash"
 
-import { application }  from "./lib/log/logger.js";
-import accesslogger  from "./lib/log/accesslogger.js";
-import applicationlogger  from "./lib/log/applicationlogger.js";
+import { application } from "./lib/log/logger.js";
+import accesslogger from "./lib/log/accesslogger.js";
+import applicationlogger from "./lib/log/applicationlogger.js";
+import { initialize } from "./lib/security/accesscontrol.js";
 
 import router from "./routes/index.js";
 import shops from "./routes/shops.js";
@@ -69,6 +71,8 @@ app.use(session({
   name: "sid"
 }));
 app.use(express.urlencoded({ extended: true }));
+app.use(flash());
+app.use(...initialize());
 
 app.use("/", router);
 app.use("/shops", shops);
