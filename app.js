@@ -27,6 +27,7 @@ const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 app.set("view engine", "ejs");
 
@@ -65,6 +66,9 @@ app.use(session({
     password: dbconfig.PASSWORD,
     database: dbconfig.DATABASE,
   }),
+  cookie: {
+    secure: IS_PRODUCTION,
+  },
   secret: appconfig.security.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
