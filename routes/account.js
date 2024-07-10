@@ -4,6 +4,10 @@ import { authenticate, authorize, PRIVILEGE } from "../lib/security/accesscontro
 
 const router = express();
 
+router.get("/", (req, res, next) => {
+  res.render("./account/index.ejs");
+})
+
 router.get("/login", (req, res, next) => {
   res.render("./account/login.ejs", { "message": req.flash("message") });
 })
