@@ -116,7 +116,6 @@ router.post("/regist/execute", async (req, res, next) => {
   res.redirect(`/account/reviews/regist/complete?shopId=${shopId}`);
 });
 
-
 router.get("/regist/complete", (req, res, next) => {
     res.render("./account/reviews/regist-complete.ejs", { shopId: req.query.shopId })
 });

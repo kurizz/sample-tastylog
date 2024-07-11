@@ -42,21 +42,6 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 
 app.use(accesslogger());
 
-//import MySqlClient from "./lib/database/client.js";
-// app.get("/test", async (req, res, next) => {
-//   let tran;
-//   try {
-//     tran = await MySqlClient.beginTransaction();
-//     await tran.executeQuery("UPDATE t_shop SET score=? WHERE id=?", [4.00, 1]);
-//     throw new Error("Test Exception");
-//     await tran.commit();
-//     res.end("OK");
-//   } catch (err) {
-//     await tran.rollback();
-//     next(err);
-//   }
-// });
-
 app.use(cookie());
 app.use(session({
   store: new MySQLStore({
