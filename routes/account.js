@@ -14,6 +14,16 @@ router.get("/login", (req, res, next) => {
 
 router.post("/login", authenticate());
 
+router.post("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err)
+    } else {
+      res.redirect("/account/login");
+    }
+  });
+});
+
 router.use("/reviews", authorize(PRIVILEGE.NORMAL), accountReviews)
 
 export default router;
