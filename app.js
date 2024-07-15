@@ -7,11 +7,13 @@ import cookie from "cookie-parser";
 import session from "express-session";
 import MySQLStore from "express-mysql-session";
 import flash from "connect-flash"
+import gracefulShutdown from "http-graceful-shutdown";
 
 import { application } from "./lib/log/logger.js";
 import accesslogger from "./lib/log/accesslogger.js";
 import applicationlogger from "./lib/log/applicationlogger.js";
 import { initialize } from "./lib/security/accesscontrol.js";
+import pool from "./lib/database/pool.js";
 
 import router from "./routes/index.js";
 import shops from "./routes/shops.js";
@@ -90,7 +92,24 @@ app.use((err, req, res, next) => {
   res.render("./500.ejs");
 })
 
-
-app.listen(appconfig.PORT, () => {
+const server = app.listen(appconfig.PORT, () => {
   application.log(`Application listening at :${appconfig.PORT}`);
+});
+
+gracefulShutdown(server, {
+  signals: "SIGINT SIGTERM",
+  timeout: 10000,
+  onShutdown: () => {
+    return new Promise((resolve, reject) => {
+      pool.end((err) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve();
+      });
+    });
+  },
+  finally: () => {
+    application.info("Application shutdown finished!");
+  }
 });
