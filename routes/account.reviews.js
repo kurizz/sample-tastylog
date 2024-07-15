@@ -25,7 +25,7 @@ const validateReviewData = req => {
   return undefined;
 };
 
-const router = express();
+const router = express.Router();
 
 router.get("/regist/:shopId(\\d+)", async(req, res, next) => {
   let shopId = req.params.shopId;

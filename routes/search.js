@@ -1,8 +1,8 @@
-import Router from "express";
+import express from "express";
 import MySqlClient from "../lib/database/client.js";
 import applicationConfig from "../config/application.config.js";
 
-const router = Router.Router()
+const router = express.Router()
 const MAX_ITEMS = applicationConfig.search.MAX_ITEMS_PER_PAGE
 
 router.get("/", async (req, res, next) => {
