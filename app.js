@@ -73,6 +73,7 @@ app.use("/", (() => {
   _router.use("/shops", shops);
   _router.use("/search", search);
   _router.use("/account", account);
+  _router.use("/test", (req, res) => { throw new Error('500 test error') });
 
   return _router;
 })());
@@ -82,6 +83,11 @@ app.use(applicationlogger())
 app.use((req, res, next) => {
   res.status(404);
   res.render("./404.ejs");
+})
+
+app.use((err, req, res, next) => {
+  res.status(500);
+  res.render("./500.ejs");
 })
 
 
