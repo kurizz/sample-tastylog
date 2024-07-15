@@ -79,6 +79,12 @@ app.use("/", (() => {
 
 app.use(applicationlogger())
 
+app.use((req, res, next) => {
+  res.status(404);
+  res.render("./404.ejs");
+})
+
+
 app.listen(appconfig.PORT, () => {
   application.log(`Application listening at :${appconfig.PORT}`);
 });
