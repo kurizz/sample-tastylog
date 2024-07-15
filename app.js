@@ -63,10 +63,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(flash());
 app.use(...initialize());
 
-app.use("/", router);
-app.use("/shops", shops);
-app.use("/search", search);
-app.use("/account", account);
+app.use("/", (() => {
+  const _router = express.Router();
+  _router.use((req, res, next) => {
+    res.setHeader("X-Frame-Options", "SAMEORIGIN");
+    next();
+  });
+  _router.use("/", router);
+  _router.use("/shops", shops);
+  _router.use("/search", search);
+  _router.use("/account", account);
+
+  return _router;
+})());
 
 app.use(applicationlogger())
 
